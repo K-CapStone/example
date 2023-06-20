@@ -123,6 +123,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      sha256: c37099ad833a883c9d71782321cb65c3a848c21b6939b6185f0ff6640d05814c
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.3"
+  plugin_platform_interface:
+    dependency: transitive
+    description:
+      name: plugin_platform_interface
+      sha256: "6a2128648c854906c53fa8e33986fc0247a1116122f9534dd20e3ab9e16a32bc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
+  radar_chart:
+    dependency: "direct main"
+    description:
+      name: radar_chart
+      sha256: "8354cb6f4398a03aff283f7b73c8e27a406c740227e7e0ac0feefe438087fcd6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
+  simple_animation_progress_bar:
+    dependency: "direct main"
+    description:
+      name: simple_animation_progress_bar
+      sha256: ea5a84956d59541794aa2e8d9d68af3c3fc712f6224992ebb68ac13325401c1c
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -186,3 +218,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.5 <4.0.0"
+  flutter: ">=2.12.0"
