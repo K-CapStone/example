@@ -20,6 +20,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.index = 1;
     _tabController.addListener(
           () => setState(() => _selectedIndex = _tabController.index,));
   }

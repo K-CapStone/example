@@ -38,6 +38,10 @@ dependencies:
   percent_indicator: ^4.2.3
   simple_animation_progress_bar: ^1.6.0
   radar_chart: ^2.1.0
+  smooth_page_indicator: ^1.1.0
+  fl_chart: ^0.63.0
+
+
 
 
 dev_dependencies:
