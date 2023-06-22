@@ -1,4 +1,6 @@
+import 'package:example/dataService.dart';
 import 'package:example/model/questionList.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -14,6 +16,17 @@ class Test2 extends StatefulWidget {
 class _Test2State extends State<Test2> {
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
   int length = QuestionList().questionList.length;
+  String nickname = "";
+
+  @override
+  void initState() {
+    super.initState();
+    DataService().getNickNameFromFirestore().then((n) {
+      setState(() {
+        nickname = n;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,42 +126,50 @@ class _Test2State extends State<Test2> {
             ),
           ),
         ));
-
     return Scaffold(
       backgroundColor: const Color(0xff72D88F),
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                "자가진단테스트",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 35, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 35),
-              SizedBox(
-                height: 240,
-                child: PageView.builder(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 60.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "환영합니다!! $nickname님",
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 50,),
+                const Text(
+                  "자가진단테스트",
+                  style: TextStyle(
+                      color: Colors.white, fontSize: 35, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 35),
+                SizedBox(
+                  height: 240,
+                  child: PageView.builder(
+                    controller: controller,
+                    itemCount: pages.length,
+                    itemBuilder: (_, index) {
+                      return pages[index % pages.length];
+                    },
+                  ),
+                ),
+                SmoothPageIndicator(
                   controller: controller,
-                  itemCount: pages.length,
-                  itemBuilder: (_, index) {
-                    return pages[index % pages.length];
-                  },
+                  count: pages.length,
+                  effect: JumpingDotEffect(
+                    activeDotColor: Theme.of(context).colorScheme.primary,
+                    dotHeight: 16,
+                    dotWidth: 16,
+                    jumpScale: .7,
+                    verticalOffset: 15,
+                  ),
                 ),
-              ),
-              SmoothPageIndicator(
-                controller: controller,
-                count: pages.length,
-                effect: JumpingDotEffect(
-                  activeDotColor: Theme.of(context).colorScheme.primary,
-                  dotHeight: 16,
-                  dotWidth: 16,
-                  jumpScale: .7,
-                  verticalOffset: 15,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

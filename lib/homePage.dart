@@ -20,6 +20,56 @@ class _HomePageState extends State<HomePage> {
   );
   final items = ToDoList().toDoList;
 
+  Future<Future<bool?>> showConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            width: 250,
+            height: 230,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "포기 하시겠습니까?",
+                    style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text(
+                          "취소",
+                          style: TextStyle(color: Colors.green, fontSize: 17),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text(
+                          "확인",
+                          style:
+                              TextStyle(color: Colors.redAccent, fontSize: 17),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,18 +111,35 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.black,
                         fontWeight: FontWeight.w300),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Expanded(
-                    child: ListView.builder(
+                    child: items.isNotEmpty ? ListView.builder(
                       itemCount: items.length,
                       itemBuilder: (context, index) {
                         final item = items[index];
                         return Dismissible(
-                          key: Key(item),
+                          key: Key(item[0]),
+                          confirmDismiss: (direction) async {
+                            if (direction == DismissDirection.startToEnd) {
+                              final result =
+                                  await showConfirmationDialog(context);
+
+                              if (result == true) {
+                                // 항목 삭제 로직을 여기에 구현
+                              }
+
+                              return result;
+                            } else if (direction ==
+                                DismissDirection.endToStart) {
+                              const result = true;
+
+                              return result;
+                            }
+                          },
                           background: Container(
-                            color: Colors.redAccent, // 왼쪽 스와이프 배경색
+                            color: Colors.redAccent,
                             alignment: Alignment.centerLeft,
                             child: const Padding(
                               padding: EdgeInsets.only(left: 8.0),
@@ -85,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           secondaryBackground: Container(
-                            color: Colors.green, // 오른쪽 스와이프 배경색
+                            color: Colors.green,
                             alignment: Alignment.centerRight,
                             child: const Padding(
                               padding: EdgeInsets.only(right: 8.0),
@@ -98,9 +165,34 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           onDismissed: (direction) {
-                            setState(() {
-                              items.removeAt(index);
-                            });
+                            if (direction == DismissDirection.endToStart) {
+                              var snackBar = SnackBar(
+                                content: Text('${item[0]} 성공!'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              setState(() {
+                                final currentItem = items[index];
+                                if (currentItem.length >= 2) {
+                                  for (int i = 0;
+                                      i < currentItem.length - 1;
+                                      i++) {
+                                    currentItem[i] = currentItem[i + 1];
+                                  }
+                                  final updatedText = currentItem[0];
+                                  items[index][0] = updatedText;
+                                  currentItem.length--;
+                                } else {
+                                  setState(() {
+                                    items.removeAt(index);
+                                  });
+                                }
+                              });
+                            } else {
+                              setState(() {
+                                items.removeAt(index);
+                              });
+                            }
                           },
                           child: GestureDetector(
                             onTap: () {
@@ -108,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => DetailPage(
-                                            title: item,
+                                            title: item[0],
                                           )));
                             },
                             child: ListTile(
@@ -121,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      Text("${index + 1}. $item"),
+                                      Text("${index + 1}. ${item[0]}"),
                                     ],
                                   ),
                                 ),
@@ -131,28 +223,16 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
-                    ),
-                    // ListView.builder(
-                    //   itemCount: ToDoList().toDoList.length,
-                    //   itemBuilder: (context, index) {
-                    //     return ListTile(
-                    //       title: Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Text(ToDoList().toDoList[index]),
-                    //           Checkbox(
-                    //             value: isCheckedList[index],
-                    //             onChanged: (bool? value) {
-                    //               setState(() {
-                    //                 isCheckedList[index] = value ?? false;
-                    //               });
-                    //             },
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     );
-                    //   },
-                    // )
+                    ) : const Center(child: Padding(
+                      padding: EdgeInsets.only(bottom: 50.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("오늘 미션을 모두 끝내셨네여!", style: TextStyle(fontSize: 20),),
+                          Text("수고하셨습니다!", style: TextStyle(fontSize: 20),),
+                        ],
+                      ),
+                    )),
                   )
                 ],
               ),

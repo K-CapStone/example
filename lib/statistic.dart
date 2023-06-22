@@ -142,33 +142,62 @@ class _StatisticState extends State<Statistic> {
                   Stack(
                     children: [
                       Container(
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),                         color: Colors.grey.shade300,
+                        ),
                         width: 600,
                         height: 400,
-                        color: Colors.grey.shade300,
                       ),
-                      Container(
-                        width: 400,
-                        height: 400,
-                        child: Center(
-                          child: RadarChart(
-                            length: _length,
-                            radius: 150,
-                            initialAngle: pi / 6,
-                            backgroundColor: Colors.white,
-                            //borderStroke: 2,
-                            //borderColor: Colors.red.withOpacity(0.4),
-                            radialStroke: 2,
-                            radialColor: Colors.grey.shade300,
-                            radars: [
-                              RadarTile(
-                                values: values1,
-                                borderStroke: 2,
-                                borderColor: Colors.greenAccent,
-                                backgroundColor: Colors.greenAccent.withOpacity(0.4),
+                      Stack(
+                        children: [
+                          SizedBox(
+                            width: 400,
+                            height: 400,
+                            child: Center(
+                              child: RadarChart(
+                                length: _length,
+                                radius: 150,
+                                initialAngle: pi / 6,
+                                backgroundColor: Colors.white,
+                                //borderStroke: 2,
+                                //borderColor: Colors.red.withOpacity(0.4),
+                                radialStroke: 2,
+                                radialColor: Colors.grey.shade300,
+                                radars: [
+                                  RadarTile(
+                                    values: values1,
+                                    borderStroke: 2,
+                                    borderColor: Colors.greenAccent,
+                                    backgroundColor: Colors.greenAccent.withOpacity(0.4),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: Center(child: Text("친밀도", style: TextStyle(fontSize: 18),)),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 100.0, left: 3),
+                            child: Text("성실함", style: TextStyle(fontSize: 18),),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 280.0, left: 3),
+                            child: Text("규칙성", style: TextStyle(fontSize: 18),),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 360.0),
+                            child: Center(child: Text("취미", style: TextStyle(fontSize: 18),)),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 105.0, right: 8),
+                            child: Align(alignment: Alignment.centerRight,child: Text("건강", style: TextStyle(fontSize: 18),)),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 280.0, right: 5),
+                            child: Align(alignment: Alignment.centerRight,child: Text("전문성", style: TextStyle(fontSize: 18),)),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -84,7 +84,7 @@ class Profile extends StatelessWidget {
                   return Column(
                     children: [
                       ListTile(
-                        title: Text(ToDoList().toDoList[index]),
+                        title: Text(ToDoList().toDoList[index][0]),
                       ),
                       LinearPercentIndicator(
                         width: MediaQuery.of(context).size.width - 50,
