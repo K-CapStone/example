@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:example/model/criteria.dart';
 import 'package:flutter/material.dart';
 import 'package:radar_chart/radar_chart.dart';

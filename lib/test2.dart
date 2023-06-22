@@ -150,6 +150,7 @@ class _Test2State extends State<Test2> {
                 SizedBox(
                   height: 240,
                   child: PageView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: controller,
                     itemCount: pages.length,
                     itemBuilder: (_, index) {
